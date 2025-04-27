@@ -46,6 +46,7 @@ pico_enable_stdio_usb(Server 1)
 
 # Add the standard library to the build
 target_link_libraries(Server
+        pico_cyw43_arch_lwip_threadsafe_background
         pico_stdlib)
 
 # Add the standard include files to the build
