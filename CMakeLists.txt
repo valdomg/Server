@@ -33,9 +33,25 @@ project(Server C CXX ASM)
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+pico_add_library(example_lwip_http_util NOFLAG)
+target_sources(example_lwip_http_util INTERFACE
+        ${CMAKE_CURRENT_LIST_DIR}/example_http_client_util.c
+        )
+pico_mirrored_target_link_libraries(example_lwip_http_util INTERFACE
+        pico_lwip_http
+        pico_lwip_mbedtls
+        pico_mbedtls
+        )
+target_include_directories(example_lwip_http_util INTERFACE
+        ${CMAKE_CURRENT_LIST_DIR}
+        )
+
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(Server Server.c )
+set(WIFI_SSID "SUA REDE") # Nome da sua rede wifi
+set(WIFI_PASSWORD "SENHA DA REDE") # Senha da rede wifi
+
 
 pico_set_program_name(Server "Server")
 pico_set_program_version(Server "0.1")
@@ -46,12 +62,14 @@ pico_enable_stdio_usb(Server 1)
 
 # Add the standard library to the build
 target_link_libraries(Server
+        pico_stdlib
         pico_cyw43_arch_lwip_threadsafe_background
-        pico_stdlib)
+        example_lwip_http_util)
 
 # Add the standard include files to the build
 target_include_directories(Server PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/..
 )
 
 # Add any user requested libraries
