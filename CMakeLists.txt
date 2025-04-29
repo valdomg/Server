@@ -64,7 +64,8 @@ pico_enable_stdio_usb(Server 1)
 target_link_libraries(Server
         pico_stdlib
         pico_cyw43_arch_lwip_threadsafe_background
-        example_lwip_http_util)
+        example_lwip_http_util
+        hardware_adc)
 
 # Add the standard include files to the build
 target_include_directories(Server PRIVATE
