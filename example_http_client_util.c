@@ -43,6 +43,8 @@ err_t http_client_header_print_fn(__unused httpc_state_t *connection, __unused v
         char c = (char)pbuf_get_at(hdr, offset++);
         HTTP_INFOC(c);
     }
+
+    
     return ERR_OK;
 }
 
@@ -54,6 +56,8 @@ err_t http_client_receive_print_fn(__unused void *arg, __unused struct altcp_pcb
         char c = (char)pbuf_get_at(p, offset++);
         HTTP_INFOC(c);
     }
+
+    pbuf_free(p);
     return ERR_OK;
 }
 
