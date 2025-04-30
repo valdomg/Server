@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controle</title>
 
+    <script> 
+        function autoRefresh() { 
+            window.location = window.location.href; 
+        } 
+        setInterval('autoRefresh()', 3000); 
+    </script>
+
+    <script>
+        function atualizarPagina() {
+        window.location.reload(true);
+    }
+    </script>
     
 </head>
 <body>
@@ -17,13 +29,11 @@
         
         
         <h1> x {{ ultima[0] }}</h1>
-        <h1> y {{ ultima[1] }}</h1>
-        
-        <p>NAda</p>
-        
-        
+        <h1> y {{ ultima[1] }}</h1>    
         
     </main>
     
+
+
 </body>
 </html>
