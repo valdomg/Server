@@ -64,6 +64,19 @@ _Bool valid_read_y(uint actual_read_y){
     
 }
 
+int convert_to_coordenate(int coord){
+    int temp;
+    temp = coord - 2060;
+
+    if(temp < 0){
+        coord = temp;
+    }
+
+    printf("%d \n", coord);
+
+    return coord;
+}
+
 
 // Tenta enviar o primeiro item do buffer
 void enviar_request(uint x, uint y) {
@@ -74,7 +87,7 @@ void enviar_request(uint x, uint y) {
     }
 
     char path[50];
-    snprintf(path, sizeof(path), "/?x=%u&y=%u", x, y);
+    snprintf(path, sizeof(path), "/coordenadas?x=%d&y=%d", x, y);
 
     EXAMPLE_HTTP_REQUEST_T req = {0};
     req.hostname = HOST;
@@ -93,8 +106,9 @@ void enviar_request(uint x, uint y) {
         printf("Erro ao enviar (%d), tentando novamente depois.\n", result);
         
     }
-    sniprintf(path, sizeof(path), "");
-    sleep_ms(20);
+
+    //sniprintf(path, sizeof(path), "");
+    sleep_ms(10);
 
 }
 
@@ -133,8 +147,9 @@ int main()
 
     while (true){
 
-        uint x = read_adc_x();
-        uint y = read_adc_y();
+        int x = read_adc_x();
+        int y = read_adc_y();
+
 
         printf("Actual read:%d buffer_read %d\n", x, buffer_read_x);
 
