@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controle</title>
 
+    <style>
+        body {
+            font-family: Arial;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+        }
+
+        .joystick-area {
+            width: 300px;
+            height: 300px;
+            background: #ddd;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pointer {
+            width: 40px;
+            height: 40px;
+            background: #ff4d4d;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <!--
     <script> 
         function autoRefresh() { 
             window.location = window.location.href; 
@@ -17,6 +48,8 @@
         window.location.reload(true);
     }
     </script>
+
+    -->
     
 </head>
 <body>
@@ -26,14 +59,37 @@
     </header>
     
     <main>
+
         
-        
-        <h1> X: {{ ultima[0] }}</h1>
-        <h1> Y: {{ ultima[1] }}</h1>    
+        <div class="joystick-area">
+            <div class="pointer" id="pointer"></div>
+        </div>
         
     </main>
-    
 
+    <script>
+        const socket = io();
+        const pointer = document.getElementById("pointer");
+
+        socket.on('nova_coordenada', data => {
+            const x = data.x;
+            const y = data.y;
+
+            const max = 4095;
+            const center = 150;
+            const offset = 40;
+
+            const normX = center + (x - max/2) * (center - offset) / (max/2);
+            const normY = center + (y - max/2) * (center - offset) / (max/2);
+
+            pointer.style.left = `${normX}px`;
+            pointer.style.top = `${normY}px`;
+        });
+    </script>
+    
+    <script src="{{ url_for('static', filename="/scripts/coords.js" ) }}">
+        
+    </script>
 
 </body>
 </html>
