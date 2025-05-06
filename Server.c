@@ -46,45 +46,8 @@ void adicionar_ao_buffer(uint x, uint y) {
     }
 }
 
-_Bool valid_read_x(uint actual_read_x){
-
-    if(buffer_read_x !=  actual_read_x){
-        buffer_read_x = actual_read_x;
-        return true;
-    }
-    
-}
-
-_Bool valid_read_y(uint actual_read_y){
-
-    if(buffer_read_y != actual_read_y){
-        buffer_read_y = actual_read_y;
-        return true;
-    }
-    
-}
-
-int convert_to_coordenate(int coord){
-    int temp;
-    temp = coord - 2060;
-
-    if(temp < 0){
-        coord = temp;
-    }
-
-    printf("%d \n", coord);
-
-    return coord;
-}
-
-
 // Tenta enviar o primeiro item do buffer
 void enviar_request(uint x, uint y) {
-
-    if(!valid_read_x(x) && !valid_read_y(y)){
-        printf("Valor igual \n");
-        return;
-    }
 
     char path[50];
     snprintf(path, sizeof(path), "/coordenadas?x=%d&y=%d", x, y);
@@ -141,9 +104,6 @@ int main()
     setupJoy();
     // Inicializa Wi-Fi
     conectarWifi();
-    
-    buffer_read_x = 0;
-    buffer_read_y = 0;
 
     while (true){
 
