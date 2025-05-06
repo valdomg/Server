@@ -115,7 +115,7 @@ int main()
 
         enviar_request(x, y);
         cyw43_arch_poll();
-        sleep_ms(100);
+        sleep_ms(50);
     }
     
 }
