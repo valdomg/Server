@@ -8,19 +8,18 @@
     <style>
         body {
             font-family: Arial;
-            display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             background: #f0f0f0;
         }
 
         .joystick-area {
-            width: 300px;
-            height: 300px;
+            width: 1000px;
+            height: 700px;
             background: #ddd;
-            border-radius: 50%;
+            border-radius: 0%;
             position: relative;
+            margin: auto;
         }
 
         .pointer {
@@ -34,29 +33,9 @@
     </style>
 
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-
-    <!--
-    <script> 
-        function autoRefresh() { 
-            window.location = window.location.href; 
-        } 
-        setInterval('autoRefresh()', 400); 
-    </script>
-
-    <script>
-        function atualizarPagina() {
-        window.location.reload(true);
-    }
-    </script>
-
-    -->
     
 </head>
 <body>
-
-    <header>
-        <h1>Painel de Controle da BitDogLab</h1>
-    </header>
     
     <main>
 
@@ -76,19 +55,17 @@
             const y = data.y;
 
             const max = 4095;
-            const center = 150;
-            const offset = 40;
+            const centerX = 500;
+            const centerY = 350
+            const offset = 10;
 
-            const normX = center + (x - max/2) * (center - offset) / (max/2);
-            const normY = center + (y - max/2) * (center - offset) / (max/2);
+            const normX = centerX + (x - max/2) * (centerX - offset) / (max/2);
+            const normY = centerY + (y - max/2) * (centerY - offset) / (max/2);
 
             pointer.style.left = `${normX}px`;
             pointer.style.top = `${normY}px`;
+            console.log(`x: ${normX}, y: ${normY}`);
         });
-    </script>
-    
-    <script src="{{ url_for('static', filename="/scripts/coords.js" ) }}">
-        
     </script>
 
 </body>
