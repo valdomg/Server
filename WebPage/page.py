@@ -28,10 +28,10 @@ def receber_coordenadas():
     x = request.args.get('x', type=int)
     y = request.args.get('y', type=int)
 
-    if x is not None and y is not None:
-        coordenada = (x, y)
-        print(f"Recebido: x = {x}, y = {y}")
-        socketio.emit('nova_coordenada', {'x': x, 'y': y})
+    
+    coordenada = (x, y)
+    print(f"Recebido: x = {x}, y = {y}")
+    socketio.emit('nova_coordenada', {'x': x, 'y': y})
     return "OK"
 
 
