@@ -7,13 +7,14 @@ body {
     background: #f0f0f0;
 
     .joystick-area {
-        width: 300px;
-        height: 300px;
+        width: 1400px;
+        height: 900px;
         background: #ddd;
-        border-radius: 50%;
+        border-radius: 0%;
         position: relative;
+        margin: auto;
     }
-    
+
     .pointer {
         width: 40px;
         height: 40px;
