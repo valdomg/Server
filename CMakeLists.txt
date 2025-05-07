@@ -41,6 +41,8 @@ pico_mirrored_target_link_libraries(example_lwip_http_util INTERFACE
         pico_lwip_http
         pico_lwip_mbedtls
         pico_mbedtls
+        hardware_clocks
+        hardware_pll
         )
 target_include_directories(example_lwip_http_util INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}
