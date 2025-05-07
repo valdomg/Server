@@ -12,6 +12,9 @@
 #include "Library/IRQ.h"
 #include "Library/Joystick.h"
 
+#include "hardware/clocks.h" 
+#include "hardware/pll.h" 
+
 const char WIFI_SSID [20] = "Online.Rosa";
 const char WIFI_PASS [20] = "3914902323";
 
@@ -21,7 +24,7 @@ const int PORT = 5000;
 uint buffer_read_x = 0;
 uint buffer_read_y = 0;
 
-#define BUFFER_SIZE 10
+#define BUFFER_SIZE 5
 
 typedef struct {
     uint x;
@@ -47,17 +50,25 @@ void adicionar_ao_buffer(uint x, uint y) {
 }
 
 // Tenta enviar o primeiro item do buffer
-void enviar_request(uint x, uint y) {
+void enviar_request() {
 
-    char path[50];
+    if (buffer_inicio == buffer_fim) {
+        // buffer vazio
+        return;
+    }
+
+    Coordenada *c = &buffer[buffer_inicio];
+    int x = c->x;
+    int y = c->y; 
+
+    char path[30];
+    
     snprintf(path, sizeof(path), "/coordenadas?x=%d&y=%d", x, y);
 
     EXAMPLE_HTTP_REQUEST_T req = {0};
     req.hostname = HOST;
     req.url = path;
     req.port = PORT;
-    req.headers_fn = http_client_header_print_fn;
-    req.recv_fn = http_client_receive_print_fn;
 
     printf("Enviando: %s\n", path);
     int result = http_client_request_sync(cyw43_arch_async_context(), &req);
@@ -65,16 +76,15 @@ void enviar_request(uint x, uint y) {
 
     if (result == 0) {
         printf("Enviado com sucesso!\n");
+        buffer_inicio = (buffer_inicio + 1) % BUFFER_SIZE; // remove do buffer
     } else {
         printf("Erro ao enviar (%d), tentando novamente depois.\n", result);
         
     }
 
     //sniprintf(path, sizeof(path), "");
-    sleep_ms(10);
 
 }
-
 
 
 void conectarWifi(){
@@ -105,15 +115,26 @@ int main()
     // Inicializa Wi-Fi
     conectarWifi();
 
+    int buffer_x, buffer_y = 0;
+
+
     while (true){
+
+
 
         int x = read_adc_x();
         int y = read_adc_y();
 
+        if(buffer_x != x && buffer_y != y){
+            buffer_x = x;
+            buffer_y = y;
 
-        printf("Actual read:%d buffer_read %d\n", x, buffer_read_x);
+            adicionar_ao_buffer(x, y);
+            enviar_request();
+        }
 
-        enviar_request(x, y);
+        //printf("Actual read:%d buffer_read %d\n", x, buffer_read_x);
+
         cyw43_arch_poll();
         sleep_ms(50);
     }
