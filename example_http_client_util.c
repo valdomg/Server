@@ -44,7 +44,7 @@ err_t http_client_header_print_fn(__unused httpc_state_t *connection, __unused v
         HTTP_INFOC(c);
     }
 
-    
+    pbuf_free(hdr);
     return ERR_OK;
 }
 
@@ -68,6 +68,8 @@ static err_t internal_header_fn(httpc_state_t *connection, void *arg, struct pbu
     if (req->headers_fn) {
         return req->headers_fn(connection, req->callback_arg, hdr, hdr_len, content_len);
     }
+
+    pbuf_free(hdr);
     return ERR_OK;
 }
 
@@ -77,6 +79,8 @@ static err_t internal_recv_fn(void *arg, struct altcp_pcb *conn, struct pbuf *p,
     if (req->recv_fn) {
         return req->recv_fn(req->callback_arg, conn, p, err);
     }
+
+    pbuf_free(p);
     return ERR_OK;
 }
 
