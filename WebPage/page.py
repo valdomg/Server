@@ -17,7 +17,7 @@ def index():
     x = request.args.get('x', type=int)
     y = request.args.get('y', type=int)
 
-    print("X: ", x, "y: ", y)
+    #print("X: ", x, "y: ", y)
 
     return rd("index.html")
 
@@ -30,7 +30,7 @@ def receber_coordenadas():
 
     
     coordenada = (x, y)
-    print(f"Recebido: x = {x}, y = {y}")
+    #print(f"Recebido: x = {x}, y = {y}")
     socketio.emit('nova_coordenada', {'x': x, 'y': y})
     return "OK"
 
