@@ -88,6 +88,7 @@ void enviar_request() {
 
 
 void conectarWifi(){
+
     if (cyw43_arch_init()){
         printf("Erro ao inicializar o Wi-Fi\n");
     }
@@ -96,12 +97,12 @@ void conectarWifi(){
     printf("Conectando ao Wi-Fi...\n");
 
     if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASS, CYW43_AUTH_WPA2_AES_PSK, 10000)){
-        printf("Falha ao conectar ao Wi-Fi\n");
+        printf("Falha ao conectar ao Wi-Fi\n");  
     }
 
     else{
         uint8_t *ip_address = (uint8_t *)&(cyw43_state.netif[0].ip_addr.addr);
-        printf("Wi-Fi conectado! IP: %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
+        printf("Wi-Fi conectado! IP: %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]); 
     }
 }
 
@@ -117,15 +118,13 @@ int main()
 
     int buffer_x, buffer_y = 0;
 
-
     while (true){
-
-
 
         int x = read_adc_x();
         int y = read_adc_y();
 
-        if(buffer_x != x && buffer_y != y){
+        if (buffer_x != x && buffer_y != y)
+        {
             buffer_x = x;
             buffer_y = y;
 
@@ -139,4 +138,5 @@ int main()
         sleep_ms(50);
     }
     
+    return 0;
 }
