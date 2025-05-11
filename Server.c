@@ -46,8 +46,10 @@ void adicionar_ao_buffer(uint x, uint y) {
     }
 }
 
-// Tenta enviar o primeiro item do buffer
-void enviar_request() {
+/**
+ * Função para envio das informações de posição do joystick
+ */
+void enviar_request_joy() {
 
     if (buffer_inicio == buffer_fim) {
         // buffer vazio
@@ -83,7 +85,9 @@ void enviar_request() {
 
 }
 
-//Função para envio do estados dos botões
+/**
+ * Função para envio do estados dos botões
+ */
 void requestBtn(uint btn_direito, uint btn_esquerdo){
 
     char path_btn[30];
@@ -108,6 +112,9 @@ void requestBtn(uint btn_direito, uint btn_esquerdo){
     }
 }
 
+/**
+ * Função conexão do wifi
+ */
 
 void conectarWifi(){
 
@@ -132,6 +139,7 @@ int main()
 {
     stdio_init_all();
 
+    //Setups
     setupBTN();
     setupJoy();
     gpio_set_irq_enabled_with_callback(BTN_JOY, GPIO_IRQ_EDGE_RISE, true, &resetIRQ);
@@ -141,6 +149,9 @@ int main()
 
     int buffer_x, buffer_y = 0;
 
+    /**
+     * Laço para lidar com a leitura e envio das informações para o servidor
+     */
     while (true){
 
         uint x = read_adc_x();
@@ -161,7 +172,7 @@ int main()
             buffer_y = y;
 
             adicionar_ao_buffer(x, y);
-            enviar_request();
+            enviar_request_joy();
         }
 
         //printf("Actual read:%d buffer_read %d\n", x, buffer_read_x);
