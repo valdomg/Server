@@ -44,23 +44,29 @@
     
     <main>
 
+        <h1 class="title">Rosa dos Ventos</h1>
         
         <div class="joystick-area">
             <div class="pointer" id="pointer"></div>
-            <div class="rosa_dos_ventos" id="norte">
+            
+            <div class="rosa-dos-ventos" id="norte">
                 Norte
             </div>
 
-            <div class="rosa_dos_ventos" id="sul">
+            <div class="rosa-dos-ventos" id="sul">
                 Sul
             </div>
 
-            <div class="rosa_dos_ventos" id="leste">
+            <div class="rosa-dos-ventos" id="leste">
                 Leste
             </div>
 
-            <div class="rosa_dos_ventos" id="oest">
+            <div class="rosa-dos-ventos" id="oeste">
                 Oeste
+            </div>
+
+            <div class="rosa-dos-ventos central">
+                <img id="img-rosa" src="{{ url_for('static', filename='/img/rosa.png' ) }}" alt="" srcset="">
             </div>
             
         </div>
@@ -76,8 +82,8 @@
             const y = data.y;
 
             const max = 4095;
-            const centerX = 700;
-            const centerY = 450
+            const centerX = 600;
+            const centerY = 400
             const offset = 10;
 
             const normX = centerX + (x - max/2) * (centerX - offset) / (max/2);
@@ -87,6 +93,25 @@
             pointer.style.top = `${normY}px`;
             //console.log(`x: ${normX}, y: ${normY}`);
         });
+    </script>
+
+    <script>
+        socket.on('btn', data => {
+
+        const btn_direito = data.a;
+        const btn_esquerdo = data.b;
+
+        console.log(btn_direito, btn_esquerdo);
+
+        if (btn_direito === 1) {
+            pointer.style.background = 'blue';
+        }
+
+        if (btn_esquerdo === 1) {
+            pointer.style.background = 'green';
+        }
+
+    });
     </script>
 
 </body>
