@@ -12,11 +12,12 @@ socketio = SocketIO(app)
 
 coordenadas = (0,0)
 
+'''URL principal, onde terá todas informações'''
 @app.route("/")
 def index():
     return rd("index.html")
 
-
+'''Endpoint que o raspberry enviará as coordenadas do joystick'''
 @app.route("/coordenadas")
 def receber_coordenadas():
     global coordenada
@@ -29,6 +30,7 @@ def receber_coordenadas():
     socketio.emit('nova_coordenada', {'x': x, 'y': y})
     return "OK"
 
+'''Endpoint para ler o estado dos botões'''
 @app.route("/btn")
 def btn_direito():
 
