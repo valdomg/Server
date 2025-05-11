@@ -6,9 +6,13 @@ body {
     height: 100vh;
     background: #f0f0f0;
 
+    .title{
+        text-align: center;
+    }
+
     .joystick-area {
-        width: 1400px;
-        height: 900px;
+        width: 1200px;
+        height: 800px;
         background: #ddd;
         border-radius: 0%;
         position: relative;
@@ -22,6 +26,46 @@ body {
         border-radius: 50%;
         position: absolute;
         transform: translate(-50%, -50%);
+    }
+
+    .rosa-dos-ventos {
+        position: absolute;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    #norte {
+      top: 5px;
+      left: 49%;
+      transform: translateX(-50%);
+    }
+
+    #sul {
+      bottom: 5px;
+      left: 49%;
+      transform: translateX(-50%);
+    }
+
+    #leste {
+      top: 50%;
+      right: 5px;
+      transform: translateY(-50%);
+    }
+
+    #oeste {
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+    }
+
+    .central {
+      top: 50%;
+      left: 49%;
+      transform: translate(-50%, -50%);
+    }
+
+    img {
+        opacity: 10%;
     }
     
 }
