@@ -5,34 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controle</title>
 
-    <!--
-    <style>
-        body {
-            font-family: Arial;
-            justify-content: center;
-            align-items: center;
-            background: #f0f0f0;
-        }
-
-        .joystick-area {
-            width: 1500px;
-            height: 1000px;
-            background: #ddd;
-            border-radius: 0%;
-            position: relative;
-            margin: auto;
-        }
-
-        .pointer {
-            width: 40px;
-            height: 40px;
-            background: #ff4d4d;
-            border-radius: 50%;
-            position: absolute;
-            transform: translate(-50%, -50%);
-        }
-    </style>    
-    -->
     <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css' ) }}"> 
     
     <script src="{{ url_for('static', filename='socket.io.min.js' ) }}"></script>
@@ -73,6 +45,8 @@
         
     </main>
 
+    <!--SCRIPT PARA RECEBER RECEBER AS INFORMAÇÕES DA POSIÇÃO DO JOYSTICK E MUDAR SUA LOCALIZAÇÃO CONFORME NECESSÁRIO-->
+
     <script>
         const socket = io();
         const pointer = document.getElementById("pointer");
@@ -91,10 +65,10 @@
             
             pointer.style.left = `${normX}px`;
             pointer.style.top = `${normY}px`;
-            //console.log(`x: ${normX}, y: ${normY}`);
         });
     </script>
 
+    <!--SCRIPT PARA LER O ESTADO DO BOTÃO QUE FOI ENVIADO-->
     <script>
         socket.on('btn', data => {
 
@@ -107,7 +81,7 @@
             pointer.style.background = 'blue';
         }
 
-        if (btn_esquerdo === 1) {
+        else if (btn_esquerdo === 1) {
             pointer.style.background = 'green';
         }
 
