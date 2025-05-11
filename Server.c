@@ -94,6 +94,9 @@ void requestBtn(uint btn_direito, uint btn_esquerdo){
 
     EXAMPLE_HTTP_REQUEST_T req = {0};
     req.url = path_btn;
+    req.url = path_btn;
+    req.port = PORT;
+
 
     printf("Enviando: %s\n", path_btn);
     int result = http_client_request_sync(cyw43_arch_async_context(), &req);
