@@ -12,13 +12,10 @@
 #include "Library/IRQ.h"
 #include "Library/Joystick.h"
 
-#include "hardware/clocks.h" 
-#include "hardware/pll.h" 
+const char WIFI_SSID [20] = "";
+const char WIFI_PASS [20] = "";
 
-const char WIFI_SSID [20] = "Online.Rosa";
-const char WIFI_PASS [20] = "3914902323";
-
-const char HOST [20] = "192.168.1.19";
+const char HOST [20] = "Endereço";
 const int PORT = 5000;
 
 uint buffer_read_x = 0;
@@ -86,7 +83,7 @@ void enviar_request() {
 
 }
 
-
+//Função para envio do estados dos botões
 void requestBtn(uint btn_direito, uint btn_esquerdo){
 
     char path_btn[30];
@@ -174,4 +171,4 @@ int main()
     }
     
     return 0;
-}
+}                           
