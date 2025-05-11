@@ -86,6 +86,28 @@ void enviar_request() {
 
 }
 
+void requestBtn(uint btn_direito, uint btn_esquerdo){
+
+    char path_btn[50];
+    
+    snprintf(path_btn, sizeof(path_btn), "/btn?a=%d&b=%d", btn_direito, btn_esquerdo);
+
+    EXAMPLE_HTTP_REQUEST_T req = {0};
+    req.url = path_btn;
+
+    printf("Enviando: %s\n", path_btn);
+    int result = http_client_request_sync(cyw43_arch_async_context(), &req);
+    printf("%d ", result);
+
+    if (result == 0) {
+        printf("Enviado com sucesso!\n");
+        buffer_inicio = (buffer_inicio + 1) % BUFFER_SIZE; // remove do buffer
+    } else {
+        printf("Erro ao enviar (%d), tentando novamente depois.\n", result);
+        
+    }
+}
+
 
 void conectarWifi(){
 
@@ -111,7 +133,7 @@ int main()
     stdio_init_all();
 
     setupBTN();
-    gpio_set_irq_enabled_with_callback(BTN_A, GPIO_IRQ_EDGE_RISE, true, &resetIRQ);
+    gpio_set_irq_enabled_with_callback(BTN_JOY, GPIO_IRQ_EDGE_RISE, true, &resetIRQ);
     setupJoy();
     // Inicializa Wi-Fi
     conectarWifi();
@@ -120,8 +142,16 @@ int main()
 
     while (true){
 
-        int x = read_adc_x();
-        int y = read_adc_y();
+        uint x = read_adc_x();
+        uint y = read_adc_y();
+
+        uint btn_a = !gpio_get(BTN_A);
+        uint btn_b = !gpio_get(BTN_B);
+
+        if(btn_a || btn_b ){   
+            requestBtn(btn_a, btn_b);
+        }
+
 
         if (buffer_x != x && buffer_y != y)
         {
